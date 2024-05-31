@@ -8,7 +8,7 @@ const {
 const createHttpError = require("http-errors");
 // const { CommentController } = require("../../comment/comment.controller");
 const ObjectId = mongoose.Types.ObjectId;
-const { CarGroupsSchemaModel } = require("../../../../models/carGroups");
+const { HousetypesSchemaModel } = require("../../../../models/houseTypes");
 const { UserModel } = require("../../../../models/user");
 const { ProductModel } = require("../../../../models/product");
 const {
@@ -25,7 +25,7 @@ class ProductController extends Controller {
       description,
       slug,
       imageLink,
-      carGroup,
+      houseGroup,
       price,
       discount = 0,
       offPrice,
@@ -40,7 +40,7 @@ class ProductController extends Controller {
       description,
       slug,
       imageLink,
-      carGroup,
+      houseGroup,
       price,
       discount,
       offPrice,
@@ -62,30 +62,30 @@ class ProductController extends Controller {
   async getListOfProducts(req, res) {
     let dbQuery = {};
     const user = req.user;
-    const { search, carGroup, sort, capacite, offPrice } = req.query;
+    const { search, houseGroup, sort, capacite, offPrice } = req.query;
     if (search) dbQuery["$text"] = { $search: search };
 
-    if (carGroup) {
-      const carGroups = carGroup.split(",");
-      const carGroupIds = [];
-      for (const item of carGroups) {
-        const { _id } = await CarGroupsSchemaModel.findOne({
+    if (houseGroup) {
+      const houseGroups = houseGroup.split(",");
+      const houseGroupIds = [];
+      for (const item of houseGroups) {
+        const { _id } = await houseGroupsSchemaModel.findOne({
           title: item,
         });
-        carGroupIds.push(_id);
+        houseGroupIds.push(_id);
       }
-      dbQuery["carGroup"] = {
-        $in: carGroupIds,
+      dbQuery["houseGroup"] = {
+        $in: houseGroupIds,
       };
     }
 
     if (capacite) {
-      const carGroupIds = [];
+      const houseGroupIds = [];
       for (const item of capacite) {
-        const carGroup = await ProductModel.find({ capacity: item });
-        carGroupIds.push(...carGroup.map((product) => product._id));
+        const houseGroup = await ProductModel.find({ capacity: item });
+        houseGroupIds.push(...houseGroup.map((product) => product._id));
       }
-      dbQuery["_id"] = { $in: carGroupIds };
+      dbQuery["_id"] = { $in: houseGroupIds };
     }
 
     if (offPrice) {
@@ -103,7 +103,7 @@ class ProductController extends Controller {
     const products = await ProductModel.find(dbQuery, {
       reviews: 0,
     })
-      .populate([{ path: "carGroup", select: { title: 1, englishTitle: 1 } }])
+      .populate([{ path: "houseGroup", select: { title: 1, englishTitle: 1 } }])
       .sort(sortQuery);
 
     const transformedProducts = copyObject(products);
@@ -135,8 +135,8 @@ class ProductController extends Controller {
     await this.findProductById(productId);
     const product = await ProductModel.findById(productId).populate([
       {
-        path: "carGroup",
-        model: "carGroup",
+        path: "houseGroup",
+        model: "houseGroup",
         select: {
           title: 1,
           icon: 1,
@@ -156,8 +156,8 @@ class ProductController extends Controller {
     const { slug } = req.params;
     const product = await ProductModel.findOne({ slug }).populate([
       {
-        path: "carGroup",
-        model: "carGroup",
+        path: "houseGroup",
+        model: "houseGroup",
         select: {
           title: 1,
           icon: 1,

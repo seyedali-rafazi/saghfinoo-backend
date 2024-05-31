@@ -12,7 +12,7 @@ const ProductSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    carGroup: { type: ObjectId, ref: "carGroup", required: true },
+    houseGroup: { type: ObjectId, ref: "houseGroup", required: true },
     imageLink: { type: String, required: true },
     price: { type: Number, required: true },
     offPrice: { type: Number, required: true },

@@ -15,10 +15,10 @@ const addProductSchema = Joi.object({
   imageLink: Joi.string()
     .required()
     .error(createError.BadRequest("Incorrect imageLink")),
-  carGroup: Joi.string()
+  houseGroup: Joi.string()
     .required()
     .regex(MongoIDPattern)
-    .error(createError.BadRequest("Incorrect carGroup")),
+    .error(createError.BadRequest("Incorrect houseGroup")),
   price: Joi.number()
     .required()
     .error(createError.BadRequest("Incorrect price")),
@@ -28,7 +28,7 @@ const addProductSchema = Joi.object({
   offPrice: Joi.number()
     .allow(0)
     .error(createError.BadRequest("Incorrect offPrice")),
-    typecars: Joi.string()
+  typecars: Joi.string()
     .required()
     .error(createError.BadRequest("Incorrect typecar")),
   capacity: Joi.number()
