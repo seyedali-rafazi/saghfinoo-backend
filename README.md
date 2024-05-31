@@ -1,4 +1,4 @@
-# Car Rental Backend App
+# House Rental Backend App
 
 ## Under Development
 
