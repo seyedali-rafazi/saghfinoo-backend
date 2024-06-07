@@ -28,18 +28,29 @@ const addProductSchema = Joi.object({
   offPrice: Joi.number()
     .allow(0)
     .error(createError.BadRequest("Incorrect offPrice")),
-  typecars: Joi.string()
-    .required()
-    .error(createError.BadRequest("Incorrect typecar")),
-  capacity: Joi.number()
-    .required()
-    .error(createError.BadRequest("Incorrect capacity")),
-  steering: Joi.string()
-    .required()
-    .error(createError.BadRequest("Incorrect steering")),
-  gasoline: Joi.number()
-    .required()
-    .error(createError.BadRequest("Incorrect gasoline")),
+  rooms: Joi.number().allow(0).error(createError.BadRequest("Incorrect rooms")),
+  parking: Joi.number()
+    .allow(0)
+    .error(createError.BadRequest("Incorrect parking")),
+  warHouse: Joi.number()
+    .allow(0)
+    .error(createError.BadRequest("Incorrect warHouse")),
+  WC: Joi.number().allow(0).error(createError.BadRequest("Incorrect WC")),
+  WCType: Joi.string().error(createError.BadRequest("Incorrect WCType")),
+  elevator: Joi.number()
+    .allow(0)
+    .error(createError.BadRequest("Incorrect elevator")),
+  floor: Joi.number().allow(0).error(createError.BadRequest("Incorrect floor")),
+  collingSystem: Joi.string().error(
+    createError.BadRequest("Incorrect collingSystem")
+  ),
+  heatingSystem: Joi.string().error(
+    createError.BadRequest("Incorrect heatingSystem")
+  ),
+  floorMaterial: Joi.string().error(
+    createError.BadRequest("Incorrect heatingSystem")
+  ),
+  city: Joi.string().error(createError.BadRequest("Incorrect heatingSystem")),
 });
 
 const changeCourseDiscountSchema = Joi.object({

@@ -30,9 +30,17 @@ class ProductController extends Controller {
       discount = 0,
       offPrice,
       typecars,
-      capacity,
-      steering,
-      gasoline,
+      rooms,
+      parking,
+      warHouse,
+      WC,
+      WCType,
+      elevator,
+      floor,
+      collingSystem,
+      heatingSystem,
+      floorMaterial,
+      city,
     } = req.body;
 
     const product = await ProductModel.create({
@@ -45,9 +53,17 @@ class ProductController extends Controller {
       discount,
       offPrice,
       typecars,
-      capacity,
-      steering,
-      gasoline,
+      rooms,
+      parking,
+      warHouse,
+      WC,
+      WCType,
+      elevator,
+      floor,
+      collingSystem,
+      heatingSystem,
+      floorMaterial,
+      city,
     });
     if (!product?._id)
       throw createHttpError.InternalServerError("محصول ثبت نشد");
@@ -79,10 +95,10 @@ class ProductController extends Controller {
       };
     }
 
-    if (capacite) {
+    if (rooms) {
       const houseGroupIds = [];
-      for (const item of capacite) {
-        const houseGroup = await ProductModel.find({ capacity: item });
+      for (const item of rooms) {
+        const houseGroup = await ProductModel.find({ rooms: item });
         houseGroupIds.push(...houseGroup.map((product) => product._id));
       }
       dbQuery["_id"] = { $in: houseGroupIds };

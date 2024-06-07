@@ -11,11 +11,6 @@ const router = require("express").Router();
 
 router.get("/list", expressAsyncHandler(ProductController.getListOfProducts));
 
-router.get(
-  "/slug/:slug",
-  decideAuthMiddleware,
-  expressAsyncHandler(ProductController.getOneProductBySlug)
-);
 
 router.post(
   "/like/:id",

@@ -12,10 +12,17 @@ const { CouponModel } = require("../../../../models/coupon");
 class CouponController extends Controller {
   async addNewCoupon(req, res) {
     await addCouponSchema.validateAsync(req.body);
-    const { code, type, productIds, amount, usageLimit, expireDate = null } = req.body;
-  
+    const {
+      code,
+      type,
+      productIds,
+      amount,
+      usageLimit,
+      expireDate = null,
+    } = req.body;
+
     let appliedToAllProducts = false;
-  
+
     // Check if the productIds array is empty
     if (productIds.length === 0) {
       appliedToAllProducts = true;
@@ -25,7 +32,7 @@ class CouponController extends Controller {
         await checkProductExist(productId);
       }
     }
-  
+
     const coupon = await CouponModel.create({
       type,
       code,
@@ -35,9 +42,10 @@ class CouponController extends Controller {
       expireDate,
       appliedToAllProducts, // Add this new field
     });
-  
-    if (!coupon?._id) throw createHttpError.InternalServerError("کد تخفیف ثبت نشد");
-  
+
+    if (!coupon?._id)
+      throw createHttpError.InternalServerError("کد تخفیف ثبت نشد");
+
     return res.status(HttpStatus.CREATED).json({
       statusCode: HttpStatus.CREATED,
       data: {
@@ -85,7 +93,7 @@ class CouponController extends Controller {
       {
         path: "productIds",
         model: "Product",
-        select: { title: 1, slug: 1 },
+        select: { title: 1 },
       },
     ]);
     if (!coupons)
@@ -103,7 +111,7 @@ class CouponController extends Controller {
       {
         path: "productIds",
         model: "Product",
-        select: { title: 1, slug: 1 },
+        select: { title: 1 },
       },
     ]);
     if (!coupon) throw createHttpError.InternalServerError("کد تخفیف پیدا نشد");

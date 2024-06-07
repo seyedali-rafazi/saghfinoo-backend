@@ -140,7 +140,6 @@ async function getUserCartDetail(userId) {
         cart: 1,
         productDetail: {
           _id: 1,
-          slug: 1,
           title: 1,
           description: 1,
           icon: 1,
