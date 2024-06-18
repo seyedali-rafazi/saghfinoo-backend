@@ -56,7 +56,7 @@ class userAuthController extends Controller {
       const user = await this.saveUser(phoneNumber, hashedPassword);
       await setAccessToken(res, user);
       await setRefreshToken(res, user);
-      let WELLCOME_MESSAGE = `Sign up is successfull ,  Welcome to Morent `;
+      let WELLCOME_MESSAGE = `ثبت نام موفقیت آمیز بود به سقفینو خوش آمدید`;
 
       return res.status(HttpStatus.OK).json({
         statusCode: HttpStatus.OK,
@@ -71,7 +71,7 @@ class userAuthController extends Controller {
     await setAccessToken(res, user);
     await setRefreshToken(res, user);
     let WELLCOME_MESSAGE = `Welcome to Morent`;
-    if (!user.isActive) WELLCOME_MESSAGE = `Please complete your profile`;
+    if (!user.isActive) WELLCOME_MESSAGE = `لطفا مشخصات خود را تکمیل کنید`;
 
     return res.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
@@ -131,7 +131,7 @@ class userAuthController extends Controller {
     return res.status(HttpStatus.OK).send({
       statusCode: HttpStatus.OK,
       data: {
-        message: "Your information has been successfully completed",
+        message: "اطلاعات شما با موفقیت به روز رسانی شد",
         user: updatedUser,
       },
     });

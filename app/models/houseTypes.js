@@ -7,7 +7,7 @@ const HousetypesSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: ["product", "comment", "post", "ticket", "housegroups"],
-      default: "housegroups",
+      default: "houseGroup",
       required: true,
     },
   },
@@ -19,5 +19,5 @@ const HousetypesSchema = new mongoose.Schema(
 HousetypesSchema.index({ title: "text", englishTitle: "text" });
 
 module.exports = {
-  HousetypesSchemaModel: mongoose.model("housegroups", HousetypesSchema),
+  HousetypesSchemaModel: mongoose.model("houseGroup", HousetypesSchema),
 };

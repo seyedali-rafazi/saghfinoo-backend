@@ -78,21 +78,26 @@ class ProductController extends Controller {
   async getListOfProducts(req, res) {
     let dbQuery = {};
     const user = req.user;
-    const { search, houseGroup, sort, capacite, offPrice } = req.query;
+    const {
+      search,
+      houseGroup,
+      sort,
+      offPrice,
+      rooms,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
     if (search) dbQuery["$text"] = { $search: search };
 
     if (houseGroup) {
       const houseGroups = houseGroup.split(",");
       const houseGroupIds = [];
       for (const item of houseGroups) {
-        const { _id } = await houseGroupsSchemaModel.findOne({
-          title: item,
-        });
+        const { _id } = await HousetypesSchemaModel.findOne({ title: item });
         houseGroupIds.push(_id);
       }
-      dbQuery["houseGroup"] = {
-        $in: houseGroupIds,
-      };
+      dbQuery["houseGroup"] = { $in: houseGroupIds };
     }
 
     if (rooms) {
@@ -116,11 +121,15 @@ class ProductController extends Controller {
       if (sort === "popular") sortQuery["likes"] = -1;
     }
 
-    const products = await ProductModel.find(dbQuery, {
-      reviews: 0,
-    })
+    // Calculate skip and limit
+    const skip = (page - 1) * limit;
+
+    // Fetch products with pagination
+    const products = await ProductModel.find(dbQuery, { reviews: 0 })
       .populate([{ path: "houseGroup", select: { title: 1, englishTitle: 1 } }])
-      .sort(sortQuery);
+      .sort(sortQuery)
+      .skip(skip)
+      .limit(parseInt(limit));
 
     const transformedProducts = copyObject(products);
 
@@ -138,10 +147,14 @@ class ProductController extends Controller {
       delete product.likes;
       return product;
     });
+
     return res.status(HttpStatus.OK).json({
       statusCode: HttpStatus.OK,
       data: {
         products: newProducts,
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: await ProductModel.countDocuments(dbQuery), // Add total count of documents
       },
     });
   }
