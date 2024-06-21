@@ -85,6 +85,14 @@ class ProductController extends Controller {
       offPrice,
       rooms,
       parking,
+      warHouse,
+      WC,
+      WCType,
+      elevator,
+      floor,
+      collingSystem,
+      heatingSystem,
+      floorMaterial,
       page = 1,
       limit = 10,
     } = req.query;
@@ -120,10 +128,32 @@ class ProductController extends Controller {
     // }
 
     const combinedIds = [];
-    if (rooms || parking) {
+    if (
+      rooms ||
+      parking ||
+      warHouse ||
+      WC ||
+      WCType ||
+      elevator ||
+      floor ||
+      collingSystem ||
+      heatingSystem ||
+      floorMaterial
+    ) {
       const queryConditions = [];
       if (rooms) queryConditions.push({ rooms: { $in: rooms } });
       if (parking) queryConditions.push({ parking: { $in: parking } });
+      if (warHouse) queryConditions.push({ warHouse: { $in: warHouse } });
+      if (WC) queryConditions.push({ WC: { $in: WC } });
+      if (WCType) queryConditions.push({ WCType: { $in: WCType } });
+      if (elevator) queryConditions.push({ elevator: { $in: elevator } });
+      if (floor) queryConditions.push({ floor: { $in: floor } });
+      if (collingSystem)
+        queryConditions.push({ collingSystem: { $in: collingSystem } });
+      if (heatingSystem)
+        queryConditions.push({ heatingSystem: { $in: heatingSystem } });
+      if (floorMaterial)
+        queryConditions.push({ floorMaterial: { $in: floorMaterial } });
 
       const combinedProducts = await ProductModel.find({
         $or: queryConditions,
