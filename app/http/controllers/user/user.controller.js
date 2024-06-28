@@ -217,9 +217,9 @@ class userAuthController extends Controller {
 
     let message;
     if (user.favoriteProduct.includes(productId)) {
-      message = "Added to you favourite list";
+      message = "به لیست علاقه‌مندی‌ها اضافه شد";
     } else {
-      message = "Remove from your favourite list";
+      message = "از لیست علاقه‌مندی‌ها حذف شد";
     }
 
     return res.status(HttpStatus.OK).json({
