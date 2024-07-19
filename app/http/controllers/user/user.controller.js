@@ -70,7 +70,7 @@ class userAuthController extends Controller {
     if (!isPasswordValid) throw createError.Unauthorized("Incorrect password");
     await setAccessToken(res, user);
     await setRefreshToken(res, user);
-    let WELLCOME_MESSAGE = `Welcome to Morent`;
+    let WELLCOME_MESSAGE = `به سقفینوو خوش آمدید`;
     if (!user.isActive) WELLCOME_MESSAGE = `لطفا مشخصات خود را تکمیل کنید`;
 
     return res.status(HttpStatus.OK).json({

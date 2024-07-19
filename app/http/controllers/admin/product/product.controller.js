@@ -93,6 +93,7 @@ class ProductController extends Controller {
       collingSystem,
       heatingSystem,
       floorMaterial,
+      city,
       page = 1,
       limit = 10,
     } = req.query;
@@ -109,24 +110,6 @@ class ProductController extends Controller {
       dbQuery["houseGroup"] = { $in: houseGroupIds };
     }
 
-    // if (rooms) {
-    //   const houseGroupIds = [];
-    //   for (const item of rooms) {
-    //     const houseGroup = await ProductModel.find({ rooms: item });
-    //     houseGroupIds.push(...houseGroup.map((product) => product._id));
-    //   }
-    //   dbQuery["_id"] = { $in: houseGroupIds };
-    // }
-
-    // if (parking) {
-    //   const houseGroupIds = [];
-    //   for (const item of parking) {
-    //     const houseGroup = await ProductModel.find({ parking: item });
-    //     houseGroupIds.push(...houseGroup.map((product) => product._id));
-    //   }
-    //   dbQuery["_id"] = { $in: houseGroupIds };
-    // }
-
     const combinedIds = [];
     if (
       rooms ||
@@ -138,7 +121,8 @@ class ProductController extends Controller {
       floor ||
       collingSystem ||
       heatingSystem ||
-      floorMaterial
+      floorMaterial ||
+      city
     ) {
       const queryConditions = [];
       if (rooms) queryConditions.push({ rooms: { $in: rooms } });
@@ -154,6 +138,7 @@ class ProductController extends Controller {
         queryConditions.push({ heatingSystem: { $in: heatingSystem } });
       if (floorMaterial)
         queryConditions.push({ floorMaterial: { $in: floorMaterial } });
+      if (city) queryConditions.push({ city: { $in: city } });
 
       const combinedProducts = await ProductModel.find({
         $or: queryConditions,

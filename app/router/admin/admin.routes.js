@@ -9,7 +9,7 @@ const { userAdminRoutes } = require("./user");
 const router = require("express").Router();
 
 router.use("/housegroup", authorize(ROLES.ADMIN), houseGroupAdminRoutes);
-router.use("/product", authorize(ROLES.ADMIN), productsAdminRoutes);
+router.use("/product", authorize(ROLES.USER), productsAdminRoutes);
 router.use("/coupon", authorize(ROLES.ADMIN), couponAdminRoutes);
 router.use("/user", authorize(ROLES.ADMIN), userAdminRoutes);
 router.use("/payment", authorize(ROLES.ADMIN), paymentAdminRoutes);
